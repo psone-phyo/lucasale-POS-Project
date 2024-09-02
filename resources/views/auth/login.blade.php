@@ -44,4 +44,13 @@
             </x-primary-button>
         </div>
     </form>
+    <a href="{{route('redirect', 'google')}}" class="text-white">
+        Sign in with google
+    </a>
+    <a href="{{route('redirect', 'github')}}" class="text-white">
+        Sign in with github
+    </a>
+    <a href="{{route('redirect', 'facebook')}}" class="text-white">
+        Sign in with facebook
+    </a>
 </x-guest-layout>

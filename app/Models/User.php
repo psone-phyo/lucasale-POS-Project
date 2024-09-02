@@ -23,6 +23,11 @@ class User extends Authenticatable
         'address',
         'profile',
         'password',
+        'nickname',
+        'provider_id',
+        'provider_token',
+        'provider_refresh_token',
+        'provider',
     ];
 
     /**
