@@ -6,12 +6,12 @@
 
 <body class="bg-light ">
 
-    <div class="d-flex flex-column align-items-center login-main">
+    <div class="d-flex flex-column align-items-center justify-content-center min-vh-100">
         <h1 class="login mb-5">
             Register Page
         </h1>
-        <div class="row w-50">
-            <div class="col-6 offset-3">
+        <div class="row w-100">
+            <div class="col-sm-6 offset-sm-3 col-md-8 offset-md-2 col-lg-4 offset-lg-4">
             <form action="{{ route('register') }}" method="POST">
                 @csrf
                 <div class="form-floating mb-3 ">

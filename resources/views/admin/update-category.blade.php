@@ -8,7 +8,6 @@
             <h6 class="m-0 font-weight-bold text-primary">Add Category Page</h6>
         </div>
         <div class="card-body">
-
             <form class="mb-3" action="{{route('category')}}" method="POST">
                 @csrf
                 <label for="exampleFormControlInput1" class="form-label">Category Name</label>
@@ -24,13 +23,26 @@
     </div>
     <div class="col-7">
         @foreach ($data as $item)
+        @if ($item->id == $id)
+
+        <form class="card-header bg-white py-3 mb-2 gap-2 d-md-flex justify-content-between align-items-center" action="{{route('editform', $id)}}" method="POST">
+            @csrf
+            <input type="text" class="m-0 font-weight-bold text-primary border-0 w-75  @error('updateCategory') is-invalid @enderror" name="updateCategory" autofocus value="{{$item->name}}">
+
+                <input type="submit" class="btn btn-secondary" value="Update">
+        </form>
+
+        @else
         <div class="card-header bg-white py-3 mb-2 gap-2 d-md-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">{{ $item->name }}</h6>
             <div>
-                <a href="{{route('editform', $item->id)}}" class="btn btn-secondary"><i class="fa-solid fa-pen"></i></a>
+                <a href="" class="btn btn-secondary"><i class="fa-solid fa-pen"></i></a>
                 <a href="{{route('deleteCategory', $item->id    )}}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
             </div>
         </div>
+        @endif
+
+
         @endforeach
 
 

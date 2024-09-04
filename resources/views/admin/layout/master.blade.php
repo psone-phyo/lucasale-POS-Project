@@ -47,7 +47,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-circle-plus"></i></i><span>Category </span></a>
+                <a class="nav-link" href="{{route('category')}}"><i class="fa-solid fa-circle-plus"></i></i><span>Category </span></a>
             </li>
 
             <li class="nav-item">
