@@ -75,6 +75,13 @@
                             </div>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
+                        <form action="{{route('logout')}}" method="POST" class="d-flex justify-content-center">
+                            @csrf
+                            <button type="submit" class="btn btn-dark rounded ">
+                                <i class="fa-solid fa-right-from-bracket"></i><span>Logout </span>
+                            </button>
+
+                        </form>
                         <div class="d-flex m-3 me-0">
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                             <a href="#" class="position-relative me-4 my-auto">

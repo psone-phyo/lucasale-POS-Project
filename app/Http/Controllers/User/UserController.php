@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function home(){
+        return view('user.index');
+    }
+
     public function notfound(){
         return view('user.404');
     }

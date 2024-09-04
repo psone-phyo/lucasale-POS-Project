@@ -82,8 +82,15 @@
                 <a class="nav-link" href="#"><i class="fa-solid fa-lock"></i></i></i><span>Change Password </span></a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-right-from-bracket"></i></i><span>Logout </span></a>
+            <li class="nav-item mt-2">
+                <form action="{{route('logout')}}" method="POST" class="d-flex justify-content-center">
+                    @csrf
+                    <button type="submit" class="btn btn-dark rounded ">
+                        <i class="fa-solid fa-right-from-bracket"></i><span>Logout </span>
+                    </button>
+
+                </form>
+
             </li>
         </ul>
         <!-- End of Sidebar -->

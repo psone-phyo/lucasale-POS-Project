@@ -30,7 +30,7 @@ class LoginController extends Controller
 
             Auth::login($user);
 
-            return redirect('/dashboard');
+            return to_route('home');
     }
 
 

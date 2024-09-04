@@ -11,11 +11,8 @@ use Illuminate\Support\Facades\Route;
 
 // });
 
-Route::group(['prefix' => 'user'], function () {
-    Route::get('home', function () {
-        return view('user.index');
-    });
-
+Route::group(['prefix' => 'user', 'middleware' => 'user'], function () {
+    Route::get('home', [UserController::class, 'home'])->name('home');
     Route::get('404', [UserController::class, 'notfound']);
 });
 
