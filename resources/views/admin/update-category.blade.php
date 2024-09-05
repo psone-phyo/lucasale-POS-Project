@@ -3,7 +3,7 @@
 @section('content')
 <!-- DataTales Example -->
 <div class="row">
-    <div class="card shadow mb-4 col-5">
+    <div class="card shadow mb-4 col-md-5 col-sm-12">
         <div class="card-header bg-white py-3">
             <h6 class="m-0 font-weight-bold text-primary">Add Category Page</h6>
         </div>
@@ -21,19 +21,24 @@
 
         </div>
     </div>
-    <div class="col-7">
+    <div class="col-md-7 col-sm-12">
+        <form action="{{route('category')}}" method="Get" class="d-flex justify-content-between align-items-center mb-3">
+            @csrf
+            <input type="search" placeholder="Search..." class="form-control m-1" name="searchKey" value="{{ request('searchKey')}}">
+            <input type="submit" value="Search" class=" btn btn-outline-primary m-1">
+        </form>
         @foreach ($data as $item)
         @if ($item->id == $id)
 
-        <form class="card-header bg-white py-3 mb-2 gap-2 d-md-flex justify-content-between align-items-center" action="{{route('editform', $id)}}" method="POST">
+        <form class="card-header bg-white py-3 mb-2 gap-2 d-flex justify-content-between align-items-center" action="{{route('editform', $id)}}" method="POST">
             @csrf
             <input type="text" class="m-0 font-weight-bold text-primary border-0 w-75  @error('updateCategory') is-invalid @enderror" name="updateCategory" autofocus value="{{$item->name}}">
 
-                <input type="submit" class="btn btn-secondary" value="Update">
+            <input type="submit" class="btn btn-secondary" value="Update">
         </form>
 
         @else
-        <div class="card-header bg-white py-3 mb-2 gap-2 d-md-flex justify-content-between align-items-center">
+        <div class="card-header bg-white py-3 mb-2 gap-2 d-flex justify-content-between align-items-center">
             <h6 class="m-0 font-weight-bold text-primary">{{ $item->name }}</h6>
             <div>
                 <a href="" class="btn btn-secondary"><i class="fa-solid fa-pen"></i></a>

@@ -3,7 +3,7 @@
 @section('content')
 <!-- DataTales Example -->
 <div class="row">
-    <div class="card shadow mb-4 col-5">
+    <div class="card shadow mb-4 col-md-5 col-sm-12">
         <div class="card-header bg-white py-3">
             <h6 class="m-0 font-weight-bold text-primary">Add Category Page</h6>
         </div>
@@ -22,13 +22,18 @@
 
         </div>
     </div>
-    <div class="col-7">
+    <div class="col-md-7 col-sm-12">
+        <form action="{{route('category')}}" method="Get" class="d-flex justify-content-between align-items-center mb-3">
+            @csrf
+            <input type="search" placeholder="Search..." class="form-control m-1" name="searchKey" value="{{ request('searchKey')}}">
+            <input type="submit" value="Search" class=" btn btn-outline-primary m-1">
+        </form>
         @foreach ($data as $item)
-        <div class="card-header bg-white py-3 mb-2 gap-2 d-md-flex justify-content-between align-items-center">
-            <h6 class="m-0 font-weight-bold text-primary">{{ $item->name }}</h6>
-            <div>
+        <div class="card-header bg-white py-3 mb-2 gap-2 d-flex justify-content-between align-items-center">
+            <p class="m-0 font-weight-bold text-primary">{{$item->name}}</p>
+            <div class="">
                 <a href="{{route('editform', $item->id)}}" class="btn btn-secondary"><i class="fa-solid fa-pen"></i></a>
-                <a href="{{route('deleteCategory', $item->id    )}}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
+                <a href="{{route('deleteCategory', $item->id )}}" class="btn btn-danger"><i class="fa-solid fa-trash"></i></a>
             </div>
         </div>
         @endforeach

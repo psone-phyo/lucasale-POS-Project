@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public function create(){
-        $data = Category::orderBy('created_at', 'desc')->get();
+        $data = Category::where('name', 'like', '%'.request('searchKey').'%')
+                ->orderBy('name')
+                ->get();
         return view('admin.category', compact('data'));
     }
 
@@ -26,7 +28,7 @@ class CategoryController extends Controller
     }
 
     public function editForm($id){
-        $data = Category::orderBy('created_at', 'desc')->get();
+        $data = Category::orderBy('name')->get();
         return view('admin.update-category', compact(['data', 'id']));
     }
 
