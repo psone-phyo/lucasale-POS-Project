@@ -20,6 +20,18 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
+    <style>
+        @media screen and (max-width:500px){
+            .category{
+                display: none;
+            }
+
+            .phone-category{
+                display: block !important; 
+            }
+        }
+    </style>
+
 </head>
 
 <body id="page-top">
@@ -49,7 +61,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{route('category')}}"><i class="fa-solid fa-circle-plus"></i></i><span>Category </span></a>
             </li>
-            
+
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa-solid fa-layer-group"></i><span>Product Details </span></a>
             </li>

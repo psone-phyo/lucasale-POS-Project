@@ -8,10 +8,13 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public function create(){
+        $tbdata = Category::where('name', 'like', '%'.request('searchKey').'%')
+                ->orderBy('id')
+                ->paginate(5);
         $data = Category::where('name', 'like', '%'.request('searchKey').'%')
-                ->orderBy('name')
-                ->get();
-        return view('admin.category', compact('data'));
+            ->orderBy('id')
+            ->get();
+        return view('admin.category', compact('tbdata','data'));
     }
 
     public function store(Request $request){
@@ -28,8 +31,13 @@ class CategoryController extends Controller
     }
 
     public function editForm($id){
-        $data = Category::orderBy('name')->get();
-        return view('admin.update-category', compact(['data', 'id']));
+        $tbdata = Category::where('name', 'like', '%'.request('searchKey').'%')
+                ->orderBy('id')
+                ->paginate(5);
+        $data = Category::where('name', 'like', '%'.request('searchKey').'%')
+            ->orderBy('id')
+            ->get();
+        return view('admin.update-category', compact(['data', 'id' , 'tbdata']));
     }
 
     public function edit(Request $request, $id){
