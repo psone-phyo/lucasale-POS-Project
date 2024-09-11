@@ -9,51 +9,39 @@
                 <h6 class="m-0 font-weight-bold text-primary">Category List</h6>
             </div>
             <div class="">
-                <a href=""><i class="fa-solid fa-plus"></i> Add Category</a>
+                <a href="{{route('category')}}"><i class="fa-solid fa-plus"></i> Add Category</a>
             </div>
         </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
+                        <th>ID</th>
+                        <th>Category Name</th>
+                        <th>Created at</th>
+                        <th>Updated at</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($data as $item)
                     <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
+                        <td>{{$item->id}}</td>
+                        <td>{{$item->name}}</td>
+                        <td>{{$item->created_at}}</td>
+                        <td>{{$item->updated_at}}</td>
                     </tr>
-                    <tr>
-                        <td>Garrett Winters</td>
-                        <td>Accountant</td>
-                        <td>Tokyo</td>
-                        <td>63</td>
-                        <td>2011/07/25</td>
-                        <td>$170,750</td>
-                    </tr>
-                    <tr>
-                        <td>Ashton Cox</td>
-                        <td>Junior Technical Author</td>
-                        <td>San Francisco</td>
-                        <td>66</td>
-                        <td>2009/01/12</td>
-                        <td>$86,000</td>
-                    </tr>
+                    @endforeach
+
 
                 </tbody>
             </table>
+            <div class="d-flex justify-content-end align-items-center">
+                <div>
+                {{$data->links()}}
+                </div>
+            </div>
         </div>
     </div>
 </div>

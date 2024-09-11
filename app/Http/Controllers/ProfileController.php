@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
@@ -56,5 +58,30 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function profile(){
+        return view('admin.profile');
+    }
+
+    public function changePassword(){
+        return view('admin.passwordchange');
+    }
+
+    public function updatepassword(Request $request){
+        $request->validate([
+            'oldpassword' => 'required',
+            'newpassword' => 'required',
+            'newpasswordconfirmation' => 'required|min:8|max:12|same:newpassword',
+        ]);
+        if (Hash::check($request->oldpassword,Auth::user()->password)){
+            $data= [
+                'password' => Hash::make($request->newpassword)
+            ];
+            User::find(Auth::user()->id)->update($data);
+            return to_route('profile');
+        }else{
+            return back()->with('wrongpassword', 'Incorrect current password');
+        }
     }
 }

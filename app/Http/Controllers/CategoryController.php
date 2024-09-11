@@ -7,13 +7,15 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    //view the category form
     public function create(){
         $data = Category::where('name', 'like', '%'.request('searchKey').'%')
-                ->orderBy('name')
+                ->orderBy('updated_at' , 'desc')
                 ->get();
         return view('admin.category', compact('data'));
     }
 
+    //add to database
     public function store(Request $request){
         $this->validation($request);
         Category::create([
@@ -22,16 +24,22 @@ class CategoryController extends Controller
         return to_route('category');
     }
 
+    //delete category
     public function destroy($id){
         Category::find($id)->delete();
         return to_route('category');
     }
 
+    //view edit form
     public function editForm($id){
-        $data = Category::orderBy('name')->get();
+        $data = Category::where('name', 'like', '%'.request('searchKey').'%')
+                ->orderBy('updated_at' , 'desc')
+                ->get();
+        // $data = Category::orderBy('name')->get();
         return view('admin.update-category', compact(['data', 'id']));
     }
 
+    //edit data in database
     public function edit(Request $request, $id){
         $request->validate([
             'updateCategory' => 'required',
@@ -42,6 +50,14 @@ class CategoryController extends Controller
         return to_route('category');
     }
 
+    //view category table
+    public function categoryTable(){
+        $data = Category::paginate(5);
+        return view('admin.categoryTable', compact('data'));
+    }
+
+
+    //calidate the data
     private function validation($request){
         $request->validate([
             'category' => 'required',

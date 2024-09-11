@@ -47,9 +47,13 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{route('category')}}"><i class="fa-solid fa-circle-plus"></i></i><span>Category </span></a>
+                <a class="nav-link" href="{{route('category')}}"><i class="fa-solid fa-circle-plus"></i></i><span>Add Category </span></a>
             </li>
-            
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('categoryTable')}}"><i class="fa-solid fa-table"></i><span>Category Table</span></a>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa-solid fa-layer-group"></i><span>Product Details </span></a>
             </li>
@@ -110,14 +114,16 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {{Auth::user()->name ?? Auth::user()->nickname}}
+                                </span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{route('profile')}}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
