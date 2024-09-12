@@ -21,6 +21,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     //profile
     Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
+    Route::get('profileedit', [ProfileController::class, 'profileeditform'])->name('profileedit');
+    Route::post('profileedit', [ProfileController::class, 'profileedit']);
     Route::get('changepassword', [ProfileController::class, 'changepassword'])->name('changepassword');
     Route::post('updatepassword', [ProfileController::class, 'updatepassword'])->name('updatepassword');
 

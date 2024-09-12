@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
+
+use function PHPUnit\Framework\fileExists;
 
 class ProfileController extends Controller
 {
@@ -64,6 +66,36 @@ class ProfileController extends Controller
         return view('admin.profile');
     }
 
+    public function profileeditform(){
+        return view('admin.profileedit');
+    }
+
+    public function profileedit(Request $request){
+        $this->profilevalidation($request);
+
+        if($request->file('profile')){
+            if (Auth::user()->profile != null){
+                if (file_exists(public_path('admin/img/'. Auth::user()->profile))){
+                    unlink(public_path('admin/img/'. Auth::user()->profile));
+                }
+            }
+            $filename = uniqid() . $request->file('profile')->getClientOriginalName();
+            $request->file('profile')->move(public_path('admin/img'), $filename);
+        }else{
+            $filename = Auth::user()->profile?? 'undraw_profile_1.svg';
+        }
+        $data = [
+            'username' => $request->username,
+            'email'=> $request->email,
+            'nickname' => $request->nickname??null,
+            'address' => $request->address??null,
+            'phone' => $request->phone??null,
+            'profile' => $filename,
+        ];
+        User::find(Auth::user()->id)->update($data);
+        return to_route('profile');
+    }
+
     public function changePassword(){
         return view('admin.passwordchange');
     }
@@ -84,4 +116,15 @@ class ProfileController extends Controller
             return back()->with('wrongpassword', 'Incorrect current password');
         }
     }
+
+    //validation of profile data
+    private function profilevalidation($request){
+        $request->validate([
+            'username' => ['required', 'string', 'max:255'],
+            'email' => 'required|string|lowercase|email|max:255',
+            'phone' => 'nullable|numeric',
+            'image' => 'memes:jpg,jpeg,png,svg'
+        ]);
+    }
+
 }

@@ -30,8 +30,14 @@
             <small class="text-danger">{{$message}}</small>
             @enderror
           </div>
-          <div class="col-md-6 offset-3 text-center">
-            <input type="submit" value="Change" class="btn btn-primary w-100">
-          </div>
+
+          <div class="col-md-6 my-2 offset-md-3 d-md-flex justify-content-between align-items-center">
+                <div class="">
+                    <a class=" btn btn-dark" href="{{route('profile')}}">
+                        Back to profile
+                    </a>
+                </div>
+                <button type="submit" class="btn btn-primary w-50">Save</button>
+            </div>
     </form>
 @endsection

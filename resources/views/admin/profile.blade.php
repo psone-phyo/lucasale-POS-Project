@@ -2,48 +2,45 @@
 
 @section('content')
 
-    <div class="row d-flex justify-content-center align-items-center">
-        <div class="col-md-3">
-            <img src="{{asset('admin/img/undraw_profile_1.svg')}}" alt="">
+<div class="row d-flex justify-content-center align-items-center">
+    <div class="row d-flex justify-content-center align-items-center w-75">
+        <div class="col-md-3 offset-md-1">
+            <img src="{{Auth::user()->profile ? asset('admin/img/'. Auth::user()->profile) : asset('admin/img/undraw_profile_2.svg')}}" alt="" class="w-100 rounded-circle" width="150px" height="150px">
         </div>
-        <div class="col mt-3">
-            <form class="row g-3">
-                <div class="col-md-6">
-                  <label for="username" class="form-label mb-0">Username</label>
-                  <input type="text" class="form-control" id="username" placeholder="Enter username...">
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="nickname" class="form-label mb-0">Nickname</label>
-                  <input type="text" class="form-control" id="nickname" placeholder="Enter nickname...">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="email" class="form-label mb-0">Email</label>
-                    <input type="text" class="form-control" id="email" placeholder="Enter email...">
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="text" class="form-label mb-0">Phone</label>
-                    <input type="number" class="form-control" id="phone" placeholder="Enter phone...">
-                  </div>
-                  <div class="col-12 mb-3">
-                    <label for="inputAddress" class="form-label mb-0">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St...">
-                  </div>
-                <div class=" d-md-flex justify-content-end align-items-center w-100 px-3 text-center">
-                    <div class=" d-md-flex justify-content-between align-items-center w-100">
-                        <div class=" ">
-                            <a class=" btn btn-outline-dark mb-1" href="{{route('changepassword')}}">
-                                <i class="fa-solid fa-lock"></i>
-                                Change Password
-                            </a>
-                            <a class=" btn btn-outline-secondary mb-1" href="#">
-                                <i class="fa-solid fa-lock"></i></i></i>
-                                Forget Password
-                            </a>
-                        </div>
-                        <button type="submit" class="btn btn-primary mt-1">Sign in</button>
-                    </div>
-                </div>
-              </form>
+        <div class="col-md-7 offset-1">
+            <div class="mb-2">
+                Name : <span class="">{{ Auth::user()->name ?? Auth::user()->nickname }}</span>
+            </div>
+            <div class="mb-2">
+                Email : <span class="">{{Auth::user()->email }}</span>
+            </div>
+            <div class="mb-2">
+                Phone : <span class="">{{Auth::user()->phone }}</span>
+            </div>
+            <div class="mb-2">
+                Address : <span class="">{{Auth::user()->address }}</span>
+            </div>
+            <div class="mb-2">
+                Role : <span class="@if (Auth::user()->role == 'user')
+                    text-primary
+                    @else
+                    text-danger
+                @endif">{{Auth::user()->role }}</span>
+            </div>
+            <div class=" ">
+                <a class=" btn btn-outline-dark mb-1" href="{{route('changepassword')}}">
+                    <i class="fa-solid fa-lock"></i>
+                    Change Password
+                </a>
+                <a class=" btn btn-outline-secondary mb-1" href="#">
+                    <i class="fa-solid fa-lock"></i></i></i>
+                    Forget Password
+                </a>
+            </div>
+        </div>
+        <div class="w-75 mt-3">
+            <a href="{{route('profileedit')}}" class="btn btn-outline-primary mb-1 w-100">Edit</a>
         </div>
     </div>
+</div>
 @endsection

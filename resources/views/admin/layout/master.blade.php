@@ -11,6 +11,9 @@
 
     <title>SB Admin 2 - Dashboard</title>
 
+    {{-- bootstrap cdn link --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link
@@ -19,6 +22,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
+
 
 </head>
 
@@ -118,7 +122,7 @@
                                     {{Auth::user()->name ?? Auth::user()->nickname}}
                                 </span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="{{Auth::user()->profile ? asset('admin/img/'. Auth::user()->profile) : asset('admin/img/undraw_profile_2.svg')}}   ">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -199,6 +203,21 @@
     <script src="{{ asset('admin/js/demo/chart-area-demo.js')}}"></script>
     <script src="{{ asset('admin/js/demo/chart-pie-demo.js')}}"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        function loadFile(event){
+        let reader = new FileReader();
+
+        reader.onload = function(){
+            let output = document.getElementById('output');
+            output.src=reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+    </script>
 </body>
+
+
 
 </html>
