@@ -26,6 +26,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('changepassword', [ProfileController::class, 'changepassword'])->name('changepassword');
     Route::post('updatepassword', [ProfileController::class, 'updatepassword'])->name('updatepassword');
 
+    //add admin
+    Route::get('createadmin', [ProfileController::class, 'createadmin'])->name('createadmin');
+
 
     // Route::post('profile', [CategoryController::class, 'profileupdate'])->name('profile')->name('profile');
 });

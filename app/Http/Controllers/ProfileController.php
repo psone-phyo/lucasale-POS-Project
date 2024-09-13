@@ -117,6 +117,10 @@ class ProfileController extends Controller
         }
     }
 
+    public function createadmin(){
+        return view('admin.createadmin');
+    }
+
     //validation of profile data
     private function profilevalidation($request){
         $request->validate([

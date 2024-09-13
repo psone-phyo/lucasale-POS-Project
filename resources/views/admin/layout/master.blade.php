@@ -135,10 +135,12 @@
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                @if (Auth::user()->role == 'superadmin')
+                                <a class="dropdown-item" href="{{route('createadmin')}}">
                                     <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
-                                    Change Password
+                                    Create Admin
                                 </a>
+                                @endif
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -154,7 +156,6 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     @yield('content')
 
                 </div>
@@ -216,6 +217,7 @@
         reader.readAsDataURL(event.target.files[0]);
     }
     </script>
+
 </body>
 
 

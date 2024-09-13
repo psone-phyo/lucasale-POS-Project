@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Auth\Events\Registered;
 
 class RegisteredUserController extends Controller
 {
@@ -35,12 +35,19 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
+        $data = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]);
+        ];
 
+        if (asset($request->role) && $request->role == 'admin'){
+            $data['role'] = 'admin';
+            User::create($data);
+            return back();
+        }
+
+        $user = User::create($data);
         event(new Registered($user));
 
         Auth::login($user);
