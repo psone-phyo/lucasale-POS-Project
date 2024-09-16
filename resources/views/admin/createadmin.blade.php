@@ -1,14 +1,13 @@
 @extends('admin.layout.master')
 
 @section('content')
-<body class="bg-light ">
 
     <div class="d-flex flex-column align-items-center justify-content-center">
-        <h1 class="login mb-3">
+        <h1 class="login mb-3 fs-3">
             Create admin account
         </h1>
         <div class="row w-100">
-            <div class="col-sm-6 offset-sm-3 col-md-8 offset-md-2 col-lg-4 offset-lg-4">
+            <div class="col-sm-6 offset-sm-3 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
             <form action="{{ route('register') }}" method="POST">
                 @csrf
                 <input type="hidden" name="role" value="admin">
@@ -52,8 +51,11 @@
                     <input type="submit" value="Create" class="btn btn-secondary w-100">
                 </div>
             </form>
+            <div class="d-flex mt-2 justify-content-between">
+                <a href="{{route('adminlist')}}" class="btn btn-outline-primary d-block mb-1" style="width:45%;">Admin List<i class="fa-solid fa-arrow-right ms-2"></i></a>
+                <a href="{{route('userlist')}}" class="btn btn-outline-primary d-block " style="width:45%;">User List<i class="fa-solid fa-arrow-right ms-2"></i></a>
+            </div>
             </div>
         </div>
     </div>
-
 @endsection

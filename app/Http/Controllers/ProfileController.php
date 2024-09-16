@@ -62,14 +62,17 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
+    //show profile page
     public function profile(){
         return view('admin.profile');
     }
 
+    //show profile update page
     public function profileeditform(){
         return view('admin.profileedit');
     }
 
+    //updates the profile data
     public function profileedit(Request $request){
         $this->profilevalidation($request);
 
@@ -96,10 +99,12 @@ class ProfileController extends Controller
         return to_route('profile');
     }
 
+    //show change password page
     public function changePassword(){
         return view('admin.passwordchange');
     }
 
+    //updates changed password
     public function updatepassword(Request $request){
         $request->validate([
             'oldpassword' => 'required',
@@ -117,8 +122,33 @@ class ProfileController extends Controller
         }
     }
 
+    //show create admin page
     public function createadmin(){
         return view('admin.createadmin');
+    }
+
+    //show admin list page
+    public function adminlist(){
+        $data = User::select('id', 'name', 'nickname', 'email', 'phone', 'address', 'role', 'created_at')
+                        ->whereIn('role', ['admin', 'superadmin'])
+                        ->whereany(['id', 'name', 'nickname', 'email', 'phone', 'address', 'role', 'created_at'], 'like', '%'.request('searchKey').'%')
+                        ->paginate(5);
+        return view('admin.adminlist', compact('data'));
+    }
+
+    //show user list page
+    public function userlist(){
+        $data = User::select('id', 'name', 'nickname', 'email', 'phone', 'address', 'role', 'created_at', 'provider')
+                        ->whereIn('role', ['user'])
+                        ->whereany(['id', 'name', 'nickname', 'email', 'phone', 'address', 'role', 'created_at', 'provider'], 'like', '%'.request('searchKey').'%')
+                        ->paginate(5);
+        return view('admin.userlist', compact('data'));
+    }
+
+    //adminlist and userlist delete
+    public function listdelete($id){
+        User::find($id)->delete();
+        return back();
     }
 
     //validation of profile data

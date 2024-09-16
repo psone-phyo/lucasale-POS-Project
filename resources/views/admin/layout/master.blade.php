@@ -59,11 +59,11 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-layer-group"></i><span>Product Details </span></a>
+                <a class="nav-link" href="{{route('createproduct')}}"><i class="fa-solid fa-plus"></i></i><span>Add Product </span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-plus"></i></i><span>Add Item </span></a>
+                <a class="nav-link" href="{{route('productlist')}}"><i class="fa-solid fa-layer-group"></i><span>Product Details </span></a>
             </li>
 
             <li class="nav-item">
@@ -137,10 +137,18 @@
                                 </a>
                                 @if (Auth::user()->role == 'superadmin')
                                 <a class="dropdown-item" href="{{route('createadmin')}}">
-                                    <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
+                                    <i class="fa-solid fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Create Admin
                                 </a>
                                 @endif
+                                <a class="dropdown-item" href="{{route('adminlist')}}">
+                                    <i class="fa-solid fa-user-tie fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Admin List
+                                </a>
+                                <a class="dropdown-item" href="{{route('userlist')}}">
+                                    <i class="fa-solid fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    User List
+                                </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -157,7 +165,6 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     @yield('content')
-
                 </div>
 
 

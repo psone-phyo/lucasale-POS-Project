@@ -5,7 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
-
+use App\Http\Controllers\ProductController;
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('dashboard',[AdminController::class, 'dashboard'])->name('dashboard');
@@ -26,9 +26,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('changepassword', [ProfileController::class, 'changepassword'])->name('changepassword');
     Route::post('updatepassword', [ProfileController::class, 'updatepassword'])->name('updatepassword');
 
-    //add admin
-    Route::get('createadmin', [ProfileController::class, 'createadmin'])->name('createadmin');
+    //superadmin middleware
+    Route::group(['middleware' => 'superadmin'], function(){
+        //add admin
+        Route::get('createadmin', [ProfileController::class, 'createadmin'])->name('createadmin');
+    });
+
+    //admin list and user list
+    Route::get('adminlist', [ProfileController::class,'adminlist'])->name('adminlist');
+    Route::get('userlist', [ProfileController::class,'userlist'])->name('userlist');
+    Route::get('list/delete/{id}', [ProfileController::class, 'listdelete'])->name('listdelete');
+
+    //product
+    Route::get('createproduct', [ProductController::class, 'create'])->name('createproduct');
+    Route::post('createproduct', [ProductController::class, 'store']);
+    Route::get('productlist/{lowamt?}', [ProductController::class, 'list'])->name('productlist');
 
 
-    // Route::post('profile', [CategoryController::class, 'profileupdate'])->name('profile')->name('profile');
+
 });
