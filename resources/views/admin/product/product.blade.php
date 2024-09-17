@@ -1,6 +1,12 @@
 @extends('admin.layout.master')
 
 @section('content')
+@session('success')
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Product is successfully Deleted.</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endsession
 <div class="row">
     <div class="col">
         <a href="{{route('productlist')}}" class="btn btn-outline-primary">All Products</a>
@@ -14,9 +20,6 @@
         </form>
     </div>
 </div>
-
-
-
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
@@ -40,13 +43,14 @@
                         <th class="bg-primary">Product Name</th>
                         <th class="bg-primary">Stock</th>
                         <th class="bg-primary">Category Name</th>
+                        <th class="bg-primary">Unit Price</th>
                         <th class="bg-primary"> Tools</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if (count($data) == 0)
                     <tr>
-                        <td colspan="6" class="text-center fs-3 text-muted">
+                        <td colspan="7" class="text-center fs-3 text-muted">
                             There is no data found.
                         </td>
                     </tr>
@@ -71,10 +75,11 @@
                                   </button>
                                 </td>
                             <td>{{$item->category_name}}</td>
+                            <td>{{$item->price}}</td>
                             <td class="text-center">
-                                <a href="" class=" fs-5 me-2"><i class="fa-solid fa-eye"></i></a>
-                                <a href="" class=" text-secondary fs-5 me-2"><i class="fa-regular fa-pen-to-square"></i></a>
-                                <a href="" class=" text-danger fs-5"><i class="fa-solid fa-trash"></i></a>
+                                <a href="{{route('viewproduct',$item->id)}}" class=" fs-5 me-2"><i class="fa-solid fa-eye"></i></a>
+                                <a href="{{route('editproduct',$item->id)}}" class=" text-secondary fs-5 me-2"><i class="fa-regular fa-pen-to-square"></i></a>
+                                <a href="{{route('productdelete',$item->id)}}" class=" text-danger fs-5"><i class="fa-solid fa-trash"></i></a>
                             </td>
                         </tr>
                         @endforeach

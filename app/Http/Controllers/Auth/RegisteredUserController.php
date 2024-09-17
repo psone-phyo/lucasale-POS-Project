@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
         if (asset($request->role) && $request->role == 'admin'){
             $data['role'] = 'admin';
             User::create($data);
-            return back();
+            return back()->with('success', 'Admin is successfully created.');
         }
 
         $user = User::create($data);

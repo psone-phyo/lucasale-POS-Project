@@ -64,12 +64,12 @@ class ProfileController extends Controller
 
     //show profile page
     public function profile(){
-        return view('admin.profile');
+        return view('admin.profile.profile');
     }
 
     //show profile update page
     public function profileeditform(){
-        return view('admin.profileedit');
+        return view('admin.profile.profileedit');
     }
 
     //updates the profile data
@@ -101,7 +101,7 @@ class ProfileController extends Controller
 
     //show change password page
     public function changePassword(){
-        return view('admin.passwordchange');
+        return view('admin.profile.passwordchange');
     }
 
     //updates changed password
@@ -124,7 +124,7 @@ class ProfileController extends Controller
 
     //show create admin page
     public function createadmin(){
-        return view('admin.createadmin');
+        return view('admin.profile.createadmin');
     }
 
     //show admin list page
@@ -133,7 +133,7 @@ class ProfileController extends Controller
                         ->whereIn('role', ['admin', 'superadmin'])
                         ->whereany(['id', 'name', 'nickname', 'email', 'phone', 'address', 'role', 'created_at'], 'like', '%'.request('searchKey').'%')
                         ->paginate(5);
-        return view('admin.adminlist', compact('data'));
+        return view('admin.profile.adminlist', compact('data'));
     }
 
     //show user list page
@@ -142,7 +142,7 @@ class ProfileController extends Controller
                         ->whereIn('role', ['user'])
                         ->whereany(['id', 'name', 'nickname', 'email', 'phone', 'address', 'role', 'created_at', 'provider'], 'like', '%'.request('searchKey').'%')
                         ->paginate(5);
-        return view('admin.userlist', compact('data'));
+        return view('admin.profile.userlist', compact('data'));
     }
 
     //adminlist and userlist delete

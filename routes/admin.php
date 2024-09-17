@@ -41,6 +41,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('createproduct', [ProductController::class, 'create'])->name('createproduct');
     Route::post('createproduct', [ProductController::class, 'store']);
     Route::get('productlist/{lowamt?}', [ProductController::class, 'list'])->name('productlist');
+    Route::get('product-update/{id}', [ProductController::class, 'editform'])->name('editproduct');
+    Route::post('product-update/{id}', [ProductController::class, 'edit']);
+    Route::get('product-view/{id}', [ProductController::class, 'view'])->name('viewproduct');
+    Route::get('product-delete/{id}', [ProductController::class, 'destroy'])->name('productdelete');
+
+
 
 
 

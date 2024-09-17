@@ -1,7 +1,12 @@
 @extends('admin.layout.master')
 
 @section('content')
-
+@session('success')
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Admin is successfully created.</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endsession
     <div class="d-flex flex-column align-items-center justify-content-center">
         <h1 class="login mb-3 fs-3">
             Create admin account

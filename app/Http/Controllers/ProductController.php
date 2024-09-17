@@ -6,13 +6,13 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Console\View\Components\Alert;
-
+use PhpParser\Builder\Function_;
 
 class ProductController extends Controller
 {
     public Function create(){
         $data = Category::select('id', 'name')->get();
-        return view('admin.addproduct', compact('data'));
+        return view('admin.product.addproduct', compact('data'));
     }
 
     public function list($lowamt = 'default'){
@@ -25,17 +25,11 @@ class ProductController extends Controller
             $data = $data->where('products.stock', '<=', 3);
         }
         $data = $data->paginate(5);
-        return view('admin.product', compact('data'));
+        return view('admin.product.product', compact('data'));
     }
 
     public function store(Request $request){
-        $request->validate([
-            'image' => 'required|mimes:png,jpg,jpeg,svg,webp',
-            'name' => 'required',
-            'category' => 'required',
-            'price' => 'required|numeric',
-            'stock' => 'required|numeric',
-        ]);
+        $this->validation($request, 'create');
         $filename = uniqid() . $request->file('image')->getClientOriginalName();
         $request->file('image')->move(public_path('admin/img/product'), $filename);
 
@@ -49,4 +43,76 @@ class ProductController extends Controller
         ]);
         return back()->with('success', 'Created successfully');
     }
+
+    //show edit product form
+    public function editform($id){
+        $category = Category::select('id', 'name')->get();
+        $data = Product::find($id);
+        return view('admin.product.editproduct', compact('data','category'));
+    }
+
+    public function edit(Request $request, $id){
+        $this->validation($request, 'update');
+        $data = [
+            'name' => $request->name,
+            'category_id' => $request->category,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'description' => $request->description,
+        ];
+        if ($request->hasFile('image')){
+            unlink(public_path('admin/img/product/'. $request->oldphoto));
+            $filename = uniqid() . $request->file('image')->getClientOriginalName();
+            $request->file('image')->move(public_path('admin/img/product'), $filename);
+            $data['photo'] = $filename;
+        }else{
+            if ($request->hasFile('oldphoto')){
+                $data['photo'] = $request->oldphoto;
+            }
+
+        }
+        Product::find($id)->update($data);
+        return to_route('productlist')->with('success', 'Product successfully updated.');
+    }
+
+    //view details product
+    public function view($id){
+        $data = Product::select('products.id', 'products.name as product_name', 'products.stock','products.price', 'products.photo', 'products.description', 'products.category_id', 'categories.name as category_name')
+        ->leftjoin('categories', 'products.category_id', 'categories.id')
+        ->where('products.id', $id)
+        ->first();
+        // dd($data->toArray());
+        return view('admin.product.viewproduct', compact('data'));
+    }
+
+    //delete product
+    public function destroy($id){
+        $data = Product::select('photo')
+                ->where('id', $id)
+                ->first();
+
+        if (file_exists(public_path('admin/img/product/'. $data->photo))){
+            unlink(public_path('admin/img/product/'. $data->photo));
+        }
+        Product::find($id)->delete();
+        return back()->with('success', 'Product is Successfully deleted.');
+    }
+
+    private function validation($request, $action){
+        $data = [
+            'name' => 'required',
+            'category' => 'required',
+            'price' => 'required|numeric',
+            'stock' => 'required|numeric',
+        ];
+
+        if ($action == 'create'){
+            $data['image'] = 'required|mimes:png,jpg,jpeg,svg,webp';
+        }else{
+            $data['image'] = 'mimes:png,jpg,jpeg,svg,webp';
+        }
+
+        $request->validate($data);
+    }
+
 }

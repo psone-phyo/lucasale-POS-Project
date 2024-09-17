@@ -12,7 +12,7 @@ class CategoryController extends Controller
         $data = Category::where('name', 'like', '%'.request('searchKey').'%')
                 ->orderBy('updated_at' , 'desc')
                 ->get();
-        return view('admin.category', compact('data'));
+        return view('admin.category.category', compact('data'));
     }
 
     //add to database
@@ -36,7 +36,7 @@ class CategoryController extends Controller
                 ->orderBy('updated_at' , 'desc')
                 ->get();
         // $data = Category::orderBy('name')->get();
-        return view('admin.update-category', compact(['data', 'id']));
+        return view('admin.category.update-category', compact(['data', 'id']));
     }
 
     //edit data in database
@@ -53,7 +53,7 @@ class CategoryController extends Controller
     //view category table
     public function categoryTable(){
         $data = Category::paginate(5);
-        return view('admin.categoryTable', compact('data'));
+        return view('admin.category.categoryTable', compact('data'));
     }
 
 
