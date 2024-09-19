@@ -1,12 +1,6 @@
 @extends('admin.layout.master')
 
 @section('content')
-@session('success')
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>Product is successfully Deleted.</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-@endsession
 <div class="row">
     <div class="col">
         <a href="{{route('productlist')}}" class="btn btn-outline-primary">All Products</a>
@@ -75,7 +69,7 @@
                                   </button>
                                 </td>
                             <td>{{$item->category_name}}</td>
-                            <td>{{$item->price}}</td>
+                            <td>{{$item->price}} MMK</td>
                             <td class="text-center">
                                 <a href="{{route('viewproduct',$item->id)}}" class=" fs-5 me-2"><i class="fa-solid fa-eye"></i></a>
                                 <a href="{{route('editproduct',$item->id)}}" class=" text-secondary fs-5 me-2"><i class="fa-regular fa-pen-to-square"></i></a>

@@ -33,7 +33,7 @@
                 </div>
                   <div class="col-12">
                     <div class="">
-                        Product Unit Price : <span class="text-info">{{$data->price}}</span>
+                        Product Unit Price : <span class="text-info">{{$data->price}} MMK</span>
                     </div>
                   </div>
                   <div class="col-12">

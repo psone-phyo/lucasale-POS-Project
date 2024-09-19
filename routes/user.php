@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::group(['prefix' => 'user', 'middleware' => 'user'], function () {
-    Route::get('home', [UserController::class, 'home'])->name('home');
+    Route::get('home/{category_id?}', [UserController::class, 'home'])->name('home');
+
     Route::get('404', [UserController::class, 'notfound']);
 });
 

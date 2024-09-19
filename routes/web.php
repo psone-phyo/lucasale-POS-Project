@@ -1,9 +1,17 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
+    if (Auth::check()){
+        if (Auth::user()->role == 'admin' || Auth::user()->role == 'superadmin'){
+            return to_route('dashboard');
+        }else{
+            return to_route('home');
+        }
+    }
     return redirect('login');
 });
 

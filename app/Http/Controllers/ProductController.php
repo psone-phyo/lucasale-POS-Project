@@ -107,9 +107,9 @@ class ProductController extends Controller
         ];
 
         if ($action == 'create'){
-            $data['image'] = 'required|mimes:png,jpg,jpeg,svg,webp';
+            $data['image'] = 'required|mimes:png,jpg,jpeg,svg,webp,avif';
         }else{
-            $data['image'] = 'mimes:png,jpg,jpeg,svg,webp';
+            $data['image'] = 'mimes:png,jpg,jpeg,svg,webp,avif';
         }
 
         $request->validate($data);

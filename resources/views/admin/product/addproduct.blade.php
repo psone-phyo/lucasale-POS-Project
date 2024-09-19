@@ -45,7 +45,7 @@
                   @enderror
                 </div>
                 <div class="col-md-6">
-                    <label for="price" class="form-label mb-0">Price</label>
+                    <label for="price" class="form-label mb-0">Price (MMK)</label>
                     <input type="text" class="form-control" id="price" placeholder="Enter unit price..." name="price" value="{{old('price')}}">
                     @error('price')
                     <small class="text-danger">{{ $message }}</small>
