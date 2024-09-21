@@ -23,6 +23,10 @@ class UserController extends Controller
 
         //general search for product list
         ->whereAny(['products.name', 'categories.name', 'products.description', 'products.price', 'categories.name'], 'like', '%' . request('searchKey') . '%')
+        ->when(request('filter'), function ($query){
+            $filter = explode(',', request('filter'));
+            $query->orderby($filter[0], $filter[1]);
+        })
         ->get();
 
         //getting category name and id with leftjoin product

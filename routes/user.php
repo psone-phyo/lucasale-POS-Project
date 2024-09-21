@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'user', 'middleware' => 'user'], function () {
     Route::get('home/{category_id?}', [UserController::class, 'home'])->name('home');
 
-    Route::get('404', [UserController::class, 'notfound']);
+    Route::group(['prefix' => 'product'], function(){
+        Route::get('details/{id}', [ProductController::class, 'details'])->name('details');
+        Route::get('cart', [ProductController::class, 'cart'])->name('cart');
+        Route::post('addToCart/{id}', [ProductController::class, 'addToCart'])->name('addToCart');
+
+
+    });
 });
 

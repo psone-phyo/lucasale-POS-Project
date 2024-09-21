@@ -31,7 +31,7 @@ class ProductController extends Controller
     public function store(Request $request){
         $this->validation($request, 'create');
         $filename = uniqid() . $request->file('image')->getClientOriginalName();
-        $request->file('image')->move(public_path('admin/img/product'), $filename);
+        $request->file('image')->move(public_path('product'), $filename);
 
         Product::create([
             'photo' => $filename,
@@ -61,9 +61,9 @@ class ProductController extends Controller
             'description' => $request->description,
         ];
         if ($request->hasFile('image')){
-            unlink(public_path('admin/img/product/'. $request->oldphoto));
+            unlink(public_path('product/'. $request->oldphoto));
             $filename = uniqid() . $request->file('image')->getClientOriginalName();
-            $request->file('image')->move(public_path('admin/img/product'), $filename);
+            $request->file('image')->move(public_path('product'), $filename);
             $data['photo'] = $filename;
         }else{
             if ($request->hasFile('oldphoto')){
@@ -91,8 +91,8 @@ class ProductController extends Controller
                 ->where('id', $id)
                 ->first();
 
-        if (file_exists(public_path('admin/img/product/'. $data->photo))){
-            unlink(public_path('admin/img/product/'. $data->photo));
+        if (file_exists(public_path('product/'. $data->photo))){
+            unlink(public_path('product/'. $data->photo));
         }
         Product::find($id)->delete();
         return back()->with('success', 'Product is Successfully deleted.');

@@ -133,9 +133,19 @@
                             @endforeach
                         </ul>
                         <form action="{{route('home')}}/{{$category_id}}#productslist" method="get" class="w-100 d-flex align-items-center mb-5">
-                            <div class="d-flex justify-content-start me-3">
+                            <div class="d-flex justify-content-start  align-items-center me-3">
                                 <input type="text" name="min" id="" placeholder="Minimum Price" class="form-control d-block w-50 me-2" value="{{request('min')}}">
                                 <input type="text" name="max" id="" placeholder="Maximum Price" class="form-control d-block w-50" value="{{request('max')}}">
+                                <div class="input-group ms-2">
+                                    <select class="form-select" id="inputGroupSelect01" name="filter">
+                                      <option value="products.name,asc" {{request('filter') == 'products.name,asc'? 'selected' : ''}}>A-Z</option>
+                                      <option value="products.name,desc" {{request('filter') == 'products.name,desc'? 'selected' : ''}}>Z-A</option>
+                                      <option value="products.price,asc" {{request('filter') == 'products.price,asc'? 'selected' : ''}}>low to high price</option>
+                                      <option value="products.price,desc" {{request('filter') == 'products.price,desc'? 'selected' : ''}}>high to low price</option>
+                                      <option value="products.created_at,asc" {{request('filter') == 'products.created_at,asc'? 'selected' : ''}}>By time (first to last)</option>
+                                      <option value="products.created_at,desc" {{request('filter') == 'products.created_at,desc'? 'selected' : ''}}>By time (last to first)</option>
+                                    </select>
+                                  </div>
                             </div>
                             <input type="submit" value="Search" class="btn btn-outline-success">
                         </form>
@@ -152,7 +162,9 @@
                                     <div class="col-md-6 col-lg-4 col-xl-3">
                                         <div class="rounded position-relative fruite-item">
                                             <div class="fruite-img">
-                                                <img src="{{asset('admin/img/product/'. $item->photo)}}" class="img-fluid w-100 rounded-top" alt="" style="height: 250px;">
+                                                <a href="{{route('details', $item->id)}}">
+                                                    <img src="{{asset('product/'. $item->photo)}}" class="img-fluid w-100 rounded-top" alt="" style="height: 250px;">
+                                                </a>
                                             </div>
                                             <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">{{$item->category_name}}</div>
                                             <div class="p-4 border border-secondary border-top-0 rounded-bottom">
