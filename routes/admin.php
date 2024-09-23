@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
@@ -45,6 +46,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::post('product-update/{id}', [ProductController::class, 'edit']);
     Route::get('product-view/{id}', [ProductController::class, 'view'])->name('viewproduct');
     Route::get('product-delete/{id}', [ProductController::class, 'destroy'])->name('productdelete');
+
+    //Payment
+    Route::get('payment', [PaymentController::class, 'payment'])->name('payment');
+    Route::post('payment/store', [PaymentController::class, 'store'])->name('paymentstore');
+    Route::post('payment/store', [PaymentController::class, 'store'])->name('paymentstore');
+
 
 
 

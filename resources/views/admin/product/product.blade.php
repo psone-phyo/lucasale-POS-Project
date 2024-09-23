@@ -1,6 +1,12 @@
 @extends('admin.layout.master')
 
 @section('content')
+@session('success')
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{session('success')}}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+@endsession
 <div class="row">
     <div class="col">
         <a href="{{route('productlist')}}" class="btn btn-outline-primary">All Products</a>

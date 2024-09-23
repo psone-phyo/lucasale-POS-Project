@@ -67,7 +67,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-credit-card"></i></i><span>Payment Method </span></a>
+                <a class="nav-link" href="{{route('payment')}}"><i class="fa-solid fa-credit-card"></i></i><span>Payment Method </span></a>
             </li>
 
             <li class="nav-item">

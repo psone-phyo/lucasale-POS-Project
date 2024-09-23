@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class ProductController extends Controller
@@ -46,4 +47,40 @@ class ProductController extends Controller
 
         return view('user.cart', compact('cartitems', 'total'));
     }
+
+    public function delete(Request $request){
+        Cart::find($request->cardId)->delete();
+        return response()->json(200);
+    }
+
+    public function apitest(){
+        $cartitems = Cart::select('carts.id', 'products.name', 'products.price', 'products.photo', 'carts.user_id', 'carts.product_id', 'carts.quantity')
+                    ->leftjoin('products', 'products.id', 'carts.product_id')
+                    ->where('carts.user_id', Auth::user()->id)
+                    ->get();
+
+        return response()->json($cartitems,200);
+    }
+
+    public function confirmcart(Request $request){
+        $orderArr = [];
+        foreach($request->all() as $item){
+            array_push($orderArr, [
+                'user_id' => $item['userId'],
+                'product_id' => $item['productId'],
+                'order_code' => $item['orderCode'],
+                'count' => $item['qty'],
+                'total_amt' => $item['total_amt'],
+                'status' => 0,
+            ]);
+        }
+        Session::put( 'tempCart', $orderArr);
+
+        return response()->json([
+            'status' => 'success'
+        ],200);
+
+
+    }
+
 }

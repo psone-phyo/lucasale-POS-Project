@@ -31,6 +31,7 @@
                   </tr>
                 </thead>
                 <tbody>
+                    <input type="hidden" id="userId" value="{{Auth::user()->id}}">
                     @foreach ($cartitems as $item)
                     <tr>
                         <th scope="row">
@@ -63,13 +64,16 @@
                             <p class="mb-0 mt-4 totalAmount">{{$item->quantity * $item->price}}</p>
                         </td>
                         <td>
-                            <button class="btn btn-md rounded-circle bg-light border mt-4" >
+                            <input type="hidden" class="cartId" value="{{$item->id}}">
+                            <input type="hidden" class="productId" value="{{$item->product_id}}">
+                            <button class="btn btn-md rounded-circle bg-light border mt-4 btn-remove" >
                                 <i class="fa fa-times text-danger"></i>
                             </button>
                         </td>
 
                     </tr>
                     @endforeach
+
                 </tbody>
             </table>
         </div>
@@ -98,7 +102,9 @@
                         <h5 class="mb-0 ps-4 me-4">Total</h5>
                         <p class="mb-0 pe-4" id='finaltotal'>{{$total + 5000}} MMK</p>
                     </div>
-                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
+                    <button class="btn btn-checkout border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4 @if (count($cartitems) == 0)
+                    disabled
+                    @endif" type="button">Proceed Checkout</button>
                 </div>
             </div>
         </div>
@@ -109,33 +115,85 @@
 
 @section('js-section')
 <script>
-    $(document).ready(function(){
-        $('.btn-minus').click(function(){
-            $parentNode = $(this).parents("tr");
-            $price = parseInt($parentNode.find(".price").text().trim());
-            $qty = parseInt($parentNode.find('.qty').val().trim());
-            $totalAmount = $price * $qty;
-            $parentNode.find('.totalAmount').text($totalAmount)
-            finalCalculation();
-        })
-
-        $('.btn-plus').click(function(){
-            $parentNode = $(this).parents("tr");
-            $price = parseInt($parentNode.find(".price").text().trim());
-            $qty = parseInt($parentNode.find('.qty').val().trim());
-            $totalAmount = $price * $qty;
-            $parentNode.find('.totalAmount').text($totalAmount)
-            finalCalculation();
-        })
-
-        function finalCalculation(){
-            $total = 0
-            $('.table tbody tr').each(function(index,item){
-                $total += parseInt($(item).find('.totalAmount').text());
-            })
-            $('#subtotal').text($total)
-            $('#finaltotal').text($total + 5000)
-        }
+    $(document).ready(function() {
+    $('.btn-minus').click(function() {
+        $parentNode = $(this).parents("tr");
+        $price = parseInt($parentNode.find(".price").text().trim());
+        $qty = parseInt($parentNode.find('.qty').val().trim());
+        $totalAmount = $price * $qty;
+        $parentNode.find('.totalAmount').text($totalAmount)
+        finalCalculation();
     });
+
+    $('.btn-plus').click(function() {
+        $parentNode = $(this).parents("tr");
+        $price = parseInt($parentNode.find(".price").text().trim());
+        $qty = parseInt($parentNode.find('.qty').val().trim());
+        $totalAmount = $price * $qty;
+        $parentNode.find('.totalAmount').text($totalAmount)
+        finalCalculation();
+    });
+
+    function finalCalculation() {
+        $total = 0;
+        $('.table tbody tr').each(function(index, item) {
+            $total += parseInt($(item).find('.totalAmount').text());
+        });
+        $('#subtotal').text($total);
+        $('#finaltotal').text($total + 5000);
+    }
+
+    $('.btn-remove').click(function() {
+        $parentNode = $(this).parents('tr');
+        $cartId = $parentNode.find('.cartId').val();
+        $data = {
+            'cardId': $cartId
+        };
+
+        // Delete cart item
+        $.ajax({
+            type: 'get',
+            url: '/user/product/delete',
+            data: $data,
+            dataType: 'json',
+            success: function(response) {
+                if (response == '200') {
+                    location.reload();
+                }
+            }
+        });
+    });
+
+    $('.btn-checkout').click(function() {
+        $orderList = [];
+        $total_amt = $('#finaltotal').text().replace('MMK', '').trim();
+        $orderCode = Math.floor(Math.random() * 1000000000);
+        $userId = $('#userId').val();
+        $('tbody tr').each(function(index, row) {
+            $productId = $(row).find('.productId').val();
+            $qty = $(row).find('.qty').val();
+
+            $orderList.push({
+                'userId': $userId,
+                'productId': $productId,
+                'qty': $qty,
+                'orderCode': 'PS-'+ $orderCode,
+                'total_amt': $total_amt,
+            });
+        });
+
+        // Send order data via AJAX
+        $.ajax({
+            type: 'get',
+            url: '/user/product/confirmcart',
+            data: Object.assign({}, $orderList),
+            dataType: 'json',
+            success : function(res){
+                res.status == 'success' ? location.href='/user/product/payment' : ''
+            }
+        });
+    });
+});
+
 </script>
 @endsection
