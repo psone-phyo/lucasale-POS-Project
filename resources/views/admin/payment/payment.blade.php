@@ -8,10 +8,10 @@
   </div>
 @endsession
 
-<h1 class="text-center">Add Product<hr class="bg-primary"></h1>
-<form action="{{route('paymentstore')}}" method="POST" enctype="multipart/form-data">
+<h1 class="text-center">Add Payment Method<hr class="bg-primary"></h1>
+<form action="{{route('paymentstore')}}" method="POST" enctype="multipart/form-data" class="mb-5">
     @csrf
-    <div class="row d-flex justify-content-center align-items-center">
+    <div class="row d-flex justify-content-center align-items-center m-auto w-75 shadow-sm p-5">
         <div class="col mt-3">
             <div class="row g-3">
                 <div class="col-md-6">
@@ -37,12 +37,7 @@
                   </div>
                 <div class=" d-flex justify-content-end align-items-center w-100 text-center">
                     <div class=" d-flex justify-content-between align-items-center w-100">
-                        <div class=" ">
-                            <a class=" btn btn-dark" href="{{route('productlist')}}">
-                                Product List <i class="fa-solid fa-arrow-right ms-1"></i>
-                            </a>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-50">Create</button>
+                        <button type="submit" class="btn btn-primary w-100">Create</button>
                     </div>
                 </div>
             </div>
@@ -50,4 +45,45 @@
     </div>
 
 </form>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="bg-primary">ID</th>
+                        <th class="bg-primary">Account Name</th>
+                        <th class="bg-primary">Account Type</th>
+                        <th class="bg-primary">Account Number</th>
+                        <th class="bg-primary"></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data as $item)
+                    <tr>
+                        <td>{{$item->id}}</td>
+                        <td>{{$item->account_name}}</td>
+                        <td>{{$item->account_type}}</td>
+                        <td>{{$item->account_number}}</td>
+                            <td class="text-center">
+                                <a href="{{route('editpayment',$item->id)}}" class=" text-secondary fs-5 me-2"><i class="fa-regular fa-pen-to-square"></i></a>
+                                <a href="{{route('deletepayment',$item->id)}}" class=" text-danger fs-5"><i class="fa-solid fa-trash"></i></a>
+                            </td>
+                    </tr>
+                    @endforeach
+
+
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end align-items-center">
+                <div>
+                {{$data->links()}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection

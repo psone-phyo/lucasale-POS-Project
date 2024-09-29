@@ -21,14 +21,10 @@
             <form action="{{route('order')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="form-floating col ps-2">
-                        <input type="text" class="form-control @error('name')
-                            is-invalid
-                        @enderror" id="floatingInput" placeholder="name@example.com" name="name" value="{{old('name')}}">
-                        <label for="floatingInput">Name</label>
-                        @error('name')
-                            <small class="text-danger">{{$message}}</small>
-                        @enderror
+                    <div class=" col ps-2 d-flex justify-content-center align-items-center bg-light rounded-3">
+                        <div class=" fw-bold">
+                            Name: {{Auth::user()->name ?? Auth::user()->nickname}}
+                        </div>
                     </div>
                       <div class="form-floating col ps-2">
                         <input type="text" class="form-control" id="floatingPassword" placeholder="Password" name="phone" value="{{old('phone')}}">
@@ -49,7 +45,7 @@
                         <select class="form-select" id="inputGroupSelect01" name="paymentmethod" name="paymentmethod">
                           <option value="" selected>Choose payment method...</option>
                           @foreach ($banktype as $item)
-                            <option value="{{$item->id}}" @if ($item->id == old('paymentmethod'))
+                            <option value="{{$item->account_type}}" @if ($item->id == old('paymentmethod'))
                                 selected
                             @endif>{{$item->account_type}}</option>
                           @endforeach

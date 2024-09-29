@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 
@@ -48,9 +49,24 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('product-delete/{id}', [ProductController::class, 'destroy'])->name('productdelete');
 
     //Payment
-    Route::get('payment', [PaymentController::class, 'payment'])->name('payment');
-    Route::post('payment/store', [PaymentController::class, 'store'])->name('paymentstore');
-    Route::post('payment/store', [PaymentController::class, 'store'])->name('paymentstore');
+    Route::group(['prefix' => 'payment'], function(){
+        Route::get('/', [PaymentController::class, 'payment'])->name('payment');
+        Route::post('store', [PaymentController::class, 'store'])->name('paymentstore');
+        Route::get('edit/{id}', [PaymentController::class, 'edit'])->name('editpayment');
+        Route::post('edit/{id}', [PaymentController::class, 'update']);
+        Route::get('delete/{id}', [PaymentController::class, 'destroy'])->name('deletepayment');
+    });
+
+    //order
+    Route::group(['prefix' => 'order'], function(){
+        Route::get('orderlist', [OrderController::class, 'orderlist'])->name('orderlist');
+        Route::get('orderdetails/{ordercode}', [OrderController::class, 'details'])->name('orderdetails');
+        Route::get('statuschange', [OrderController::class, 'statuschange'])->name('statuschange');
+
+
+
+    });
+
 
 
 

@@ -169,7 +169,7 @@
         $total_amt = $('#finaltotal').text().replace('MMK', '').trim();
         $orderCode = Math.floor(Math.random() * 1000000000);
         $userId = $('#userId').val();
-        $('tbody tr').each(function(index, row) {
+        $('.table tbody tr').each(function(index, row) {
             $productId = $(row).find('.productId').val();
             $qty = $(row).find('.qty').val();
 
@@ -181,7 +181,7 @@
                 'total_amt': $total_amt,
             });
         });
-
+        
         // Send order data via AJAX
         $.ajax({
             type: 'get',

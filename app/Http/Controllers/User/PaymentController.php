@@ -21,7 +21,6 @@ class PaymentController extends Controller
 
     public function order(Request $request){
         $request->validate([
-            'name' => 'required',
             'phone' => 'required|numeric|min:8',
             'address' => 'required',
             'paymentmethod' => 'required',
@@ -32,9 +31,10 @@ class PaymentController extends Controller
             $request->file('paymentslip')->move(public_path('paymentslip'), $filename);
         }
         PaymentHistory::create([
-                'username' => $request->name,
+                'username' => Auth::user()->name ?? Auth::user()->nickname,
                 'phone' => $request->phone,
                 'address' => $request->address,
+                'payment_type' => $request->paymentmethod,
                 'payslip_image' => $filename,
                 'order_code' => $request->ordercode,
                 'total_amt' => $request->totalamount,
@@ -52,13 +52,19 @@ class PaymentController extends Controller
 
             Cart::where('user_id', $item['user_id'])->where('product_id', $item['product_id'])->delete();
         }
+        return to_route('home');
 
     }
 
     public function orderlist(){
-        $orderlist = Order::select('id', 'status', 'order_code', 'created_at')
-                    ->where('user_id', Auth::user()->id)
-                    ->groupby('status', 'order_code', 'created_at', 'id')
+        // $orderlist = Order::select('id', 'status', 'order_code', 'created_at')
+        //             ->where('user_id', Auth::user()->id)
+        //             ->groupby('status', 'order_code', 'created_at', 'id')
+        //             ->orderby('created_at', 'desc')
+        //             ->get();
+
+        $orderlist = Order::where('user_id', Auth::user()->id)
+                    ->groupby('order_code')
                     ->orderby('created_at', 'desc')
                     ->get();
         return view('user.orderlist', compact('orderlist'));

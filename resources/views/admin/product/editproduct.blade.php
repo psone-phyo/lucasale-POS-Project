@@ -14,7 +14,7 @@
     <div class="row d-flex justify-content-center align-items-center">
         <div class="col-lg-3">
             <input type="hidden" name="oldphoto" value="{{$data->photo}}">
-            <img src="{{asset('admin/img/product/' . $data->photo)}}" alt="" id=output class="mb-2 w-100">
+            <img src="{{asset('product/' . $data->photo)}}" alt="" id=output class="mb-2 w-100">
             <div class="input-group">
                 <input type="file" class="form-control" id="inputGroupFile02" name="image" onchange="loadFile(event)">
             </div>

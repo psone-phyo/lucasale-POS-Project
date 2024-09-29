@@ -12,7 +12,7 @@
 <div class="m-auto">
     <div class="row d-flex justify-content-center align-items-center">
         <div class="col-lg-3 offset-lg-2">
-            <img src="{{asset('admin/img/product/'. $data->photo)}}" alt="" class="mb-2 w-100">
+            <img src="{{asset('product/'. $data->photo)}}" alt="" class="mb-2 w-100">
         </div>
         <div class="col mt-3 offset-lg-1">
             <div class="row g-3">

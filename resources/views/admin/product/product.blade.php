@@ -60,7 +60,7 @@
                         <tr>
                             <td>{{$item->id}}</td>
                             <td class="text-center">
-                                <img src="{{asset('admin/img/product/'. $item->photo)}}" alt="" width="100px" height="70px">
+                                <img src="{{asset('product/'. $item->photo)}}" alt="" width="100px" height="70px">
                             </td>
                             <td>{{$item->product_name}}</td>
                             <td>

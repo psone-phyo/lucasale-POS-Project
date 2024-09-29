@@ -24,10 +24,12 @@ Route::group(['prefix' => 'user', 'middleware' => 'user'], function () {
 
         //api
         Route::get('apitest', [ProductController::class, 'apitest'])->name('apitest');
+
+        //order and cart
         Route::get('confirmcart', [ProductController::class, 'confirmcart'])->name('confirmcart');
         Route::get('payment', [PaymentController::class, 'payment'])->name('payment');
         Route::post('order', [PaymentController::class, 'order'])->name('order');
-        Route::get('orderlist', [PaymentController::class, 'orderlist'])->name('orderlist');
+        Route::get('orderlist', [PaymentController::class, 'orderlist'])->name('user#orderlist');
 
 
 

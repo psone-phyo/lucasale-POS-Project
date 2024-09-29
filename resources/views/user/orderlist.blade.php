@@ -28,13 +28,13 @@
                         <td>{{$item->id}}</td>
                         <td>{{$item->order_code}}</td>
                         @if ($item->status == 0)
-                        <td class="btn bg-warning text-center text-white">Pending</td>
+                        <td><span class="btn bg-warning text-center text-white me-2">Pending...</span><i class="fa-regular fa-clock text-warning fs-5"></i></td>
                         @elseif($item->status == 1)
-                        <td class="btn bg-success text-center text-white">Success</td>
+                        <td><span class="btn bg-success text-center text-white me-2">Approved</span><i class="fa-solid fa-check-double text-success fs-5"></i></td>
                         @else
-                        <td class="btn bg-danger text-center text-white">Rejected</td>
+                        <td><span class="btn bg-danger text-center text-white me-2">Rejected</span><i class="fa-solid fa-xmark text-danger fs-5"></i></td>
                         @endif
-                        <td>{{$item->created_at}}</td>
+                        <td>{{$item->created_at->format('j-F-Y')}}</td>
                     </tr>
                     @endforeach
                 @endif
