@@ -9,6 +9,7 @@
 @endsession
 <div class="row">
     <div class="col">
+        <div class="btn btn-secondary">{{$count}} Products</div>
         <a href="{{route('productlist')}}" class="btn btn-outline-primary">All Products</a>
         <a href="{{route('productlist', 'lowamount')}}" class="btn btn-outline-danger">Low Stock Products List</a>
     </div>

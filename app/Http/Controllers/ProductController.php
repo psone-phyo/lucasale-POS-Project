@@ -24,8 +24,9 @@ class ProductController extends Controller
         if ($lowamt == 'lowamount'){
             $data = $data->where('products.stock', '<=', 3);
         }
+        $count = $data->count();
         $data = $data->paginate(5);
-        return view('admin.product.product', compact('data'));
+        return view('admin.product.product', compact('data','count'));
     }
 
     public function store(Request $request){

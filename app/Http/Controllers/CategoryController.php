@@ -53,7 +53,9 @@ class CategoryController extends Controller
     //view category table
     public function categoryTable(){
         $data = Category::paginate(5);
-        return view('admin.category.categoryTable', compact('data'));
+        $count = Category::count();
+
+        return view('admin.category.categoryTable', compact('data', 'count'));
     }
 
 

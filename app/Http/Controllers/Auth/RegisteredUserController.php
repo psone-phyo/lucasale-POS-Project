@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Models\ActionLog;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
@@ -51,7 +52,11 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-
+        ActionLog::create([
+            'user_id' => Auth::user()->id,
+            'product_id' => 0,
+            'action' => 'user registered',
+        ]);
         // return redirect(route('dashboard', absolute: false));
         return to_route('home');
     }

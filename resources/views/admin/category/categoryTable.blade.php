@@ -14,6 +14,11 @@
         </div>
     </div>
     <div class="card-body">
+        <div class="d-flex justify-content-end align-items-center">
+            <div class="mb-3">
+                <span class="btn btn-primary">{{$count}}</span> Categories
+            </div>
+        </div>
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
                 <thead>

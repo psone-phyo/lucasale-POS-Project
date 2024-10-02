@@ -37,9 +37,9 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <img src="{{asset('logo.svg')}}" alt="" class="w-50">
                 </div>
-                <div class="sidebar-brand-text mx-3">Code Lab Studio</div>
+                <div class="sidebar-brand-text mx-3">L.U.C.A Sale</div>
             </a>
 
             <!-- Divider -->
@@ -66,24 +66,27 @@
                 <a class="nav-link" href="{{route('productlist')}}"><i class="fa-solid fa-layer-group"></i><span>Product Details </span></a>
             </li>
 
+            @if (Auth::user()->role == 'superadmin')
             <li class="nav-item">
                 <a class="nav-link" href="{{route('payment')}}"><i class="fa-solid fa-credit-card"></i></i><span>Payment Method </span></a>
             </li>
+            @endif
 
             <li class="nav-item">
-                <a class="nav-link" href="{{route('orderlist')}}"><i class="fa-solid fa-cart-shopping"></i><span>Order Board </span></a>
+                <a class="nav-link" href="{{route('orderlist')}}"><i class="fa-solid fa-cart-shopping"></i><span>Order Pending Board
+                @if (Session::get('pendingData') > 0)
+                <span class="badge text-bg-danger">{{Session::get('pendingData')}}</span>
+                @endif
+                </span>
+                </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-list"></i><span>Sale Information </span></a>
+                <a class="nav-link" href="{{route('saleinformation')}}"><i class="fa-solid fa-list"></i><span>Sale Information </span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-gear"></i></i><span>Setting </span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-lock"></i></i></i><span>Change Password </span></a>
+                <a class="nav-link" href="{{route('feedback')}}"><i class="fas fa-fw fa-table"></i><span>Customer Feedback </span></a>
             </li>
 
             <li class="nav-item mt-2">
@@ -130,10 +133,6 @@
                                 <a class="dropdown-item" href="{{route('profile')}}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
                                 </a>
                                 @if (Auth::user()->role == 'superadmin')
                                 <a class="dropdown-item" href="{{route('createadmin')}}">
@@ -188,7 +187,13 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <form action="{{route('logout')}}" method="POST" class="d-flex justify-content-center">
+                        @csrf
+                        <button type="submit" class="btn btn-secondary rounded ">
+                            <span>Logout </span>
+                        </button>
+
+                    </form>
                 </div>
             </div>
         </div>
@@ -223,7 +228,7 @@
             output.src=reader.result;
         }
         reader.readAsDataURL(event.target.files[0]);
-    }
+        }
     </script>
 
     @yield('jquery')

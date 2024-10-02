@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\ActionLogController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
@@ -32,6 +35,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::group(['middleware' => 'superadmin'], function(){
         //add admin
         Route::get('createadmin', [ProfileController::class, 'createadmin'])->name('createadmin');
+        Route::group(['prefix' => 'payment'], function(){
+            Route::get('/', [PaymentController::class, 'payment'])->name('payment');
+            Route::post('store', [PaymentController::class, 'store'])->name('paymentstore');
+            Route::get('edit/{id}', [PaymentController::class, 'edit'])->name('editpayment');
+            Route::post('edit/{id}', [PaymentController::class, 'update']);
+            Route::get('delete/{id}', [PaymentController::class, 'destroy'])->name('deletepayment');
+        });
     });
 
     //admin list and user list
@@ -49,28 +59,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('product-delete/{id}', [ProductController::class, 'destroy'])->name('productdelete');
 
     //Payment
-    Route::group(['prefix' => 'payment'], function(){
-        Route::get('/', [PaymentController::class, 'payment'])->name('payment');
-        Route::post('store', [PaymentController::class, 'store'])->name('paymentstore');
-        Route::get('edit/{id}', [PaymentController::class, 'edit'])->name('editpayment');
-        Route::post('edit/{id}', [PaymentController::class, 'update']);
-        Route::get('delete/{id}', [PaymentController::class, 'destroy'])->name('deletepayment');
-    });
+
 
     //order
     Route::group(['prefix' => 'order'], function(){
         Route::get('orderlist', [OrderController::class, 'orderlist'])->name('orderlist');
         Route::get('orderdetails/{ordercode}', [OrderController::class, 'details'])->name('orderdetails');
         Route::get('statuschange', [OrderController::class, 'statuschange'])->name('statuschange');
-
-
-
+        Route::get('saleinformation', [OrderController::class, 'approvedlist'])->name('saleinformation');
     });
 
-
-
-
-
-
+    Route::get('feedback',[FeedbackController::class, 'feedback'])->name('feedback');
 
 });

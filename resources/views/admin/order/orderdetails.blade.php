@@ -1,7 +1,7 @@
 @extends('admin.layout.master')
 
 @section('content')
-<a href="{{route('orderlist')}}" class="fs-5"><i class="fa-solid fa-arrow-left"></i>Back</a>
+<a href="{{$orderdetails[0]['status'] == 1 ? route('saleinformation') : route('orderlist')}}" class="fs-5"><i class="fa-solid fa-arrow-left"></i>Back</a>
 <h1 class="text-center text-decoration-underline">Pyament Details</h1>
 <div class="row mt-5" style="width:90%;margin:auto;">
     <div class="col-5 me-5">
@@ -126,13 +126,18 @@
             </table>
         </div>
         <div class="d-flex justify-content-end align-items-center">
+            @if ($orderdetails[0]['status'] == 1)
+            <button type="button" class="btn me-2 text-success">
+                Already Approved<i class="fa-solid fa-check-double text-success ms-2"></i>
+            </button>
+            @else
             <button type="button" class="btn btn-danger me-2" id="reject">
                 Reject
             </button>
-            <button type="button" class="btn btn-success" id="approve">
+            <button type="button" class="btn btn-success" id="approve" @if ($outofstock == true) disabled @endif>
                 Approve
             </button>
-
+            @endif
         </div>
     </div>
 </div>

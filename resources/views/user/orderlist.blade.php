@@ -26,7 +26,7 @@
                     @foreach ($orderlist as $item)
                     <tr>
                         <td>{{$item->id}}</td>
-                        <td>{{$item->order_code}}</td>
+                        <td><a href="{{route('user#orderdetails', $item->order_code)}}"> {{$item->order_code}}</a></td>
                         @if ($item->status == 0)
                         <td><span class="btn bg-warning text-center text-white me-2">Pending...</span><i class="fa-regular fa-clock text-warning fs-5"></i></td>
                         @elseif($item->status == 1)

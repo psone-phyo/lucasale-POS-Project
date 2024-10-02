@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\ActionLog;
 use Illuminate\Http\Request;
 use App\Models\PaymentHistory;
 use App\Http\Controllers\Controller;
@@ -52,17 +53,16 @@ class PaymentController extends Controller
 
             Cart::where('user_id', $item['user_id'])->where('product_id', $item['product_id'])->delete();
         }
-        return to_route('home');
+        ActionLog::create([
+            'user_id' => Auth::user()->id,
+            'product_id' => 0,
+            'action' => 'order',
+        ]);
+        return to_route('user#orderlist');
 
     }
 
     public function orderlist(){
-        // $orderlist = Order::select('id', 'status', 'order_code', 'created_at')
-        //             ->where('user_id', Auth::user()->id)
-        //             ->groupby('status', 'order_code', 'created_at', 'id')
-        //             ->orderby('created_at', 'desc')
-        //             ->get();
-
         $orderlist = Order::where('user_id', Auth::user()->id)
                     ->groupby('order_code')
                     ->orderby('created_at', 'desc')

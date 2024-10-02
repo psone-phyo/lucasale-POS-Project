@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Cart;
+use App\Models\Comment;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ActionLog;
+use App\Models\Rating;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\CssSelector\Node\FunctionNode;
@@ -23,7 +26,24 @@ class ProductController extends Controller
                     ->where('products.id', '!=' ,$id)
                     ->where('categories.name', $details->category_name)
                     ->get();
-        return view('user.shop-detail', compact('details', 'relatedlist'));
+
+        $comment = Comment::select('users.profile','users.name', 'users.nickname', 'comments.id' ,'comments.message', 'comments.created_at', 'comments.user_id', 'comments.product_id')
+                    ->leftJoin('users', 'users.id', 'comments.user_id')
+                    ->leftJoin('products', 'products.id', 'comments.product_id')
+                    ->where('comments.product_id', $id)
+                    ->get();
+
+        $ratingAvg = Rating::where('product_id', $id)->avg('rating');
+
+        $rating = Rating::select('rating')->where('user_id', Auth::user()->id)->where('product_id', $id)->first();
+
+        ActionLog::create([
+            'user_id' => Auth::user()->id,
+            'product_id' => $id,
+            'action' => 'seen',
+        ]);
+        $log = ActionLog::where('product_id', $id)->count();
+        return view('user.shop-detail', compact('details', 'relatedlist', 'comment', 'ratingAvg', 'rating', 'log'));
     }
 
     public function addToCart(Request $request, $id){
@@ -31,6 +51,11 @@ class ProductController extends Controller
             'user_id' => Auth::user()->id,
             'product_id' => $id,
             'quantity' => $request->qty,
+        ]);
+        ActionLog::create([
+            'user_id' => Auth::user()->id,
+            'product_id' => $id,
+            'action' => 'add to cart',
         ]);
         return to_route('home');
     }
@@ -51,6 +76,7 @@ class ProductController extends Controller
     public function delete(Request $request){
         Cart::find($request->cardId)->delete();
         return response()->json(200);
+
     }
 
     public function apitest(){
@@ -75,7 +101,6 @@ class ProductController extends Controller
             ]);
         }
         Session::put( 'tempCart', $orderArr);
-
         return response()->json([
             'status' => 'success'
         ],200);

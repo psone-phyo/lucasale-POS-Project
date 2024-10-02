@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\ActionLog;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\ProfileUpdateRequest;
 
 use function PHPUnit\Framework\fileExists;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -64,11 +65,18 @@ class ProfileController extends Controller
 
     //show profile page
     public function profile(){
+        if(Auth::user()->role == 'user'){
+
+            return view('user.profile');
+        }
         return view('admin.profile.profile');
     }
 
     //show profile update page
     public function profileeditform(){
+        if(Auth::user()->role == 'user'){
+            return view('user.profileedit');
+        }
         return view('admin.profile.profileedit');
     }
 
@@ -78,14 +86,25 @@ class ProfileController extends Controller
 
         if($request->file('profile')){
             if (Auth::user()->profile != null){
-                if (file_exists(public_path('admin/img/'. Auth::user()->profile))){
-                    unlink(public_path('admin/img/'. Auth::user()->profile));
+                if(Auth::user()->role == 'user'){
+                    if (file_exists(public_path('user/img/'. Auth::user()->profile))){
+                        unlink(public_path('user/img/'. Auth::user()->profile));
+                    }
+                }else{
+                    if (file_exists(public_path('admin/img/'. Auth::user()->profile))){
+                        unlink(public_path('admin/img/'. Auth::user()->profile));
+                    }
                 }
+
             }
             $filename = uniqid() . $request->file('profile')->getClientOriginalName();
-            $request->file('profile')->move(public_path('admin/img'), $filename);
+            if(Auth::user()->role == 'user'){
+                $request->file('profile')->move(public_path('user/img'), $filename);
+            }else{
+                $request->file('profile')->move(public_path('admin/img'), $filename);
+            }
         }else{
-            $filename = Auth::user()->profile?? 'undraw_profile_1.svg';
+            $filename = Auth::user()->profile?? null;
         }
         $data = [
             'username' => $request->username,
@@ -96,11 +115,22 @@ class ProfileController extends Controller
             'profile' => $filename,
         ];
         User::find(Auth::user()->id)->update($data);
+        if(Auth::user()->role == 'user'){
+            ActionLog::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => 0,
+                'action' => 'profile updated',
+            ]);
+            return to_route('user#profile');
+        }
         return to_route('profile');
     }
 
     //show change password page
     public function changePassword(){
+        if(Auth::user()->role == 'user'){
+            return view('user.changepassword');
+        }
         return view('admin.profile.passwordchange');
     }
 
@@ -116,6 +146,15 @@ class ProfileController extends Controller
                 'password' => Hash::make($request->newpassword)
             ];
             User::find(Auth::user()->id)->update($data);
+            if(Auth::user()->role == 'user'){
+                ActionLog::create([
+                    'user_id' => Auth::user()->id,
+                    'product_id' => 0,
+                    'action' => 'password changed',
+                ]);
+                return to_route('user#profile');
+
+            }
             return to_route('profile');
         }else{
             return back()->with('wrongpassword', 'Incorrect current password');

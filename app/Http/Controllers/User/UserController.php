@@ -14,6 +14,7 @@ class UserController extends Controller
         ->when($category_id != 0, function($query) use ($category_id){    //product category search
             $query->where('products.category_id', $category_id);
         })
+        ->where('products.stock', '>', 0)
         ->when(request('min'), function($query) use ($category_id){  //product minium price search
             $query->where('products.price', '>=', request('min'));
         })
@@ -36,9 +37,5 @@ class UserController extends Controller
         ->get();
 
         return view('user.index', compact('data', 'category', 'category_id'));
-    }
-
-    public function notfound(){
-        return view('user.404');
     }
 }

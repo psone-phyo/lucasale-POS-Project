@@ -30,7 +30,7 @@
                   </div>
                 <div class=" d-flex justify-content-end align-items-center w-100 text-center">
                     <div class=" d-flex justify-content-between align-items-center w-100">
-                        <button type="submit" class="btn btn-primary w-100">Create</button>
+                        <button type="submit" class="btn btn-primary w-100">Update</button>
                     </div>
                 </div>
             </div>

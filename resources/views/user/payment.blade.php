@@ -45,7 +45,7 @@
                         <select class="form-select" id="inputGroupSelect01" name="paymentmethod" name="paymentmethod">
                           <option value="" selected>Choose payment method...</option>
                           @foreach ($banktype as $item)
-                            <option value="{{$item->account_type}}" @if ($item->id == old('paymentmethod'))
+                            <option value="{{$item->account_type}}" @if ($item->account_type == old('paymentmethod'))
                                 selected
                             @endif>{{$item->account_type}}</option>
                           @endforeach
