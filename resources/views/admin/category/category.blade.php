@@ -27,6 +27,7 @@
             <input type="search" placeholder="Search..." class="form-control m-1" name="searchKey" value="{{ request('searchKey')}}">
             <input type="submit" value="Search" class=" btn btn-outline-primary m-1">
         </form>
+<<<<<<< HEAD:resources/views/admin/category.blade.php
 
         <div class="category">
         <table class="table table-bordered table-striped fs-6 ">
@@ -58,6 +59,14 @@
 
 
         <div class="d-none phone-category">
+=======
+        @if (count($data) == 0)
+            <div class="fs-3 text-muted text-center">
+                There is no data found.
+            </div>
+
+        @else
+>>>>>>> 3aa2a25:resources/views/admin/category/category.blade.php
         @foreach ($data as $item)
         <div class="card-header bg-white py-3 mb-2 gap-2 d-flex justify-content-between align-items-center ">
             <p class="m-0 font-weight-bold text-primary">{{$item->name}}</p>
@@ -67,7 +76,11 @@
             </div>
         </div>
         @endforeach
+<<<<<<< HEAD:resources/views/admin/category.blade.php
         </div>
+=======
+        @endif
+>>>>>>> 3aa2a25:resources/views/admin/category/category.blade.php
 
     </div>
 </div>

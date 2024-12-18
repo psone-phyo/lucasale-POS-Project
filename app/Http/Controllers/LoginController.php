@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\ActionLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -22,14 +23,18 @@ class LoginController extends Controller
                 'name' => $user->name,
                 'nickname' => $user->nickname,
                 'email' => $user->email,
-                'profile' => $user->avatar,
+                'profile' => null,
                 'provider' => $provider,
                 'provider_token' => $user->token,
                 'provider_refresh_token' => $user->refreshToken,
             ]);
 
             Auth::login($user);
-
+            ActionLog::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => 0,
+                'action' => "Login with ". $provider,
+            ]);
             return to_route('home');
     }
 

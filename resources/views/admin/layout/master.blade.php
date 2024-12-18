@@ -11,6 +11,9 @@
 
     <title>SB Admin 2 - Dashboard</title>
 
+    {{-- bootstrap cdn link --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <!-- Custom fonts for this template-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link
@@ -20,6 +23,7 @@
     <!-- Custom styles for this template-->
     <link href="{{ asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
 
+<<<<<<< HEAD
     <style>
         @media screen and (max-width:500px){
             .category{
@@ -31,6 +35,8 @@
             }
         }
     </style>
+=======
+>>>>>>> 3aa2a25
 
 </head>
 
@@ -45,9 +51,9 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <img src="{{asset('logo.svg')}}" alt="" class="w-50">
                 </div>
-                <div class="sidebar-brand-text mx-3">Code Lab Studio</div>
+                <div class="sidebar-brand-text mx-3">L.U.C.A Sale</div>
             </a>
 
             <!-- Divider -->
@@ -59,35 +65,50 @@
             </li>
 
             <li class="nav-item">
+<<<<<<< HEAD
                 <a class="nav-link" href="{{route('category')}}"><i class="fa-solid fa-circle-plus"></i></i><span>Category </span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="#"><i class="fa-solid fa-layer-group"></i><span>Product Details </span></a>
+=======
+                <a class="nav-link" href="{{route('category')}}"><i class="fa-solid fa-circle-plus"></i></i><span>Add Category </span></a>
+>>>>>>> 3aa2a25
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-plus"></i></i><span>Add Item </span></a>
+                <a class="nav-link" href="{{route('categoryTable')}}"><i class="fa-solid fa-table"></i><span>Category Table</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-credit-card"></i></i><span>Payment Method </span></a>
+                <a class="nav-link" href="{{route('createproduct')}}"><i class="fa-solid fa-plus"></i></i><span>Add Product </span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-list"></i><span>Sale Information </span></a>
+                <a class="nav-link" href="{{route('productlist')}}"><i class="fa-solid fa-layer-group"></i><span>Product Details </span></a>
+            </li>
+
+            @if (Auth::user()->role == 'superadmin')
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('payment')}}"><i class="fa-solid fa-credit-card"></i></i><span>Payment Method </span></a>
+            </li>
+            @endif
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('orderlist')}}"><i class="fa-solid fa-cart-shopping"></i><span>Order Pending Board
+                @if (Session::get('pendingData') > 0)
+                <span class="badge text-bg-danger">{{Session::get('pendingData')}}</span>
+                @endif
+                </span>
+                </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i><span>Order Board </span></a>
+                <a class="nav-link" href="{{route('saleinformation')}}"><i class="fa-solid fa-list"></i><span>Sale Information </span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-gear"></i></i><span>Setting </span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa-solid fa-lock"></i></i></i><span>Change Password </span></a>
+                <a class="nav-link" href="{{route('feedback')}}"><i class="fas fa-fw fa-table"></i><span>Customer Feedback </span></a>
             </li>
 
             <li class="nav-item mt-2">
@@ -122,24 +143,32 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {{Auth::user()->name ?? Auth::user()->nickname}}
+                                </span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="{{Auth::user()->profile ? asset('admin/img/'. Auth::user()->profile) : asset('admin/img/undraw_profile_2.svg')}}   ">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{route('profile')}}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
+                                @if (Auth::user()->role == 'superadmin')
+                                <a class="dropdown-item" href="{{route('createadmin')}}">
+                                    <i class="fa-solid fa-user-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Create Admin
                                 </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fa-solid fa-lock fa-sm fa-fw mr-2 text-gray-400"></i></i></i>
-                                    Change Password
+                                @endif
+                                <a class="dropdown-item" href="{{route('adminlist')}}">
+                                    <i class="fa-solid fa-user-tie fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Admin List
+                                </a>
+                                <a class="dropdown-item" href="{{route('userlist')}}">
+                                    <i class="fa-solid fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    User List
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -156,9 +185,7 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     @yield('content')
-
                 </div>
 
 
@@ -182,14 +209,21 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <form action="{{route('logout')}}" method="POST" class="d-flex justify-content-center">
+                        @csrf
+                        <button type="submit" class="btn btn-secondary rounded ">
+                            <span>Logout </span>
+                        </button>
+
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('admin/vendor/jquery/jquery.min.js')}}"></script>
+    {{-- <script src="{{ asset('admin/vendor/jquery/jquery.min.js')}}"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Core plugin JavaScript-->
@@ -205,6 +239,23 @@
     <script src="{{ asset('admin/js/demo/chart-area-demo.js')}}"></script>
     <script src="{{ asset('admin/js/demo/chart-pie-demo.js')}}"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        function loadFile(event){
+        let reader = new FileReader();
+
+        reader.onload = function(){
+            let output = document.getElementById('output');
+            output.src=reader.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+
+    @yield('jquery')
 </body>
+
+
 
 </html>
