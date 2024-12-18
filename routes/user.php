@@ -7,7 +7,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\user\PaymentController;
+use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\ProductController;
 
 // Route::prefix('user')->group(function () {
@@ -32,7 +32,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'user'], function () {
 
         //order and cart
         Route::get('confirmcart', [ProductController::class, 'confirmcart'])->name('confirmcart');
-        Route::get('payment', [PaymentController::class, 'payment'])->name('payment');
+        Route::get('payment', [PaymentController::class, 'payment'])->name('user#payment');
         Route::post('order', [PaymentController::class, 'order'])->name('order');
         Route::get('orderlist', [PaymentController::class, 'orderlist'])->name('user#orderlist');
         Route::get('orderdetails/{ordercode}', [OrderController::class, 'details'])->name('user#orderdetails');

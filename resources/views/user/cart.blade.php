@@ -181,7 +181,7 @@
                 'total_amt': $total_amt,
             });
         });
-        
+
         // Send order data via AJAX
         $.ajax({
             type: 'get',
