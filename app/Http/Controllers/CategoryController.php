@@ -13,15 +13,9 @@ class CategoryController extends Controller
                 ->orderBy('id')
                 ->paginate(5);
         $data = Category::where('name', 'like', '%'.request('searchKey').'%')
-<<<<<<< HEAD
-            ->orderBy('id')
-            ->get();
-        return view('admin.category', compact('tbdata','data'));
-=======
                 ->orderBy('updated_at' , 'desc')
                 ->get();
         return view('admin.category.category', compact('data'));
->>>>>>> 3aa2a25
     }
 
     //add to database
@@ -41,21 +35,11 @@ class CategoryController extends Controller
 
     //view edit form
     public function editForm($id){
-<<<<<<< HEAD
-        $tbdata = Category::where('name', 'like', '%'.request('searchKey').'%')
-                ->orderBy('id')
-                ->paginate(5);
-        $data = Category::where('name', 'like', '%'.request('searchKey').'%')
-            ->orderBy('id')
-            ->get();
-        return view('admin.update-category', compact(['data', 'id' , 'tbdata']));
-=======
         $data = Category::where('name', 'like', '%'.request('searchKey').'%')
                 ->orderBy('updated_at' , 'desc')
                 ->get();
         // $data = Category::orderBy('name')->get();
         return view('admin.category.update-category', compact(['data', 'id']));
->>>>>>> 3aa2a25
     }
 
     //edit data in database
